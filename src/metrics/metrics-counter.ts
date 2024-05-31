@@ -1,13 +1,9 @@
-import client from "prom-client";
+
 import { NextFunction, Response, Request } from "express";
+import { reqCounter } from "./requestCount";
 
-const reqCounter = new client.Counter({
-    name: 'http_requests_total',
-    help: 'Number of HTTP  requests Made',
-    labelNames: ['method', 'route', 'status_code']
-})
 
-export function requestMiddleware(req: Request, res: Response, next: NextFunction){
+export function requestCounterMiddleware(req: Request, res: Response, next: NextFunction){
     const startTime = Date.now();
 
     res.on('finish', ()=>{

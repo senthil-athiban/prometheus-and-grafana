@@ -1,12 +1,13 @@
 import express from "express";
 import client from "prom-client";
-import { requestMiddleware } from "./metrics/metrics";
+import { requestCounterMiddleware } from "./metrics/metrics-counter";
+import { requestGaugeMiddleWare } from "./metrics/metrics-gauge";
 const app = express();
 
-app.use(requestMiddleware);
+app.use(requestGaugeMiddleWare);
 
-app.get("/user", (req, res) => {
-    
+app.get("/user", async (req, res) => {
+    await new Promise(res => setTimeout(res, 10000))
     res.status(200).json({
         "message": "hello world"
     })
