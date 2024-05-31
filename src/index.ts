@@ -1,16 +1,13 @@
 import express from "express";
 import client from "prom-client";
-
+import { requestMiddleware } from "./metrics/metrics";
 const app = express();
 
-const counter = new client.Counter({
-    "name": 'http_requests_total',
-    "help": 'Number of HTTP  requests Made'
-})
+app.use(requestMiddleware);
 
 app.get("/user", (req, res) => {
-    counter.inc();
-    res.json({
+    
+    res.status(200).json({
         "message": "hello world"
     })
 })
