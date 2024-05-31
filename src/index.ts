@@ -1,19 +1,24 @@
 import express from "express";
+import client from "prom-client";
 
 const app = express();
 
-let counter = 0;
+const counter = new client.Counter({
+    "name": 'http_requests_total',
+    "help": 'Number of HTTP  requests Made'
+})
 
 app.get("/user", (req, res) => {
-    counter++;
+    counter.inc();
     res.json({
-        "name": "senthil"
+        "message": "hello world"
     })
 })
 
-app.get("/metrics", (req, res) => {
-    res.send(`counter is ${counter}`)
-    
+app.get("/metrics", async (req, res) => {
+    const metrics = await client.register.metrics();
+    res.set('Content-Type', client.register.contentType);
+    res.send(metrics);
 })
 
 app.listen(3000, () => {
