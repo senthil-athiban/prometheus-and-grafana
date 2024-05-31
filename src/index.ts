@@ -2,9 +2,10 @@ import express from "express";
 import client from "prom-client";
 import { requestCounterMiddleware } from "./metrics/metrics-counter";
 import { requestGaugeMiddleWare } from "./metrics/metrics-gauge";
+import { reqHistogramMiddleWare } from "./metrics/metrics-histogram";
 const app = express();
 
-app.use(requestGaugeMiddleWare);
+app.use(reqHistogramMiddleWare);
 
 app.get("/user", async (req, res) => {
     await new Promise(res => setTimeout(res, 10000))
