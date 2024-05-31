@@ -13,6 +13,9 @@ app.get("/user", (req, res) => {
 
 app.get("/metrics", (req, res) => {
     res.send(`counter is ${counter}`)
+    
 })
 
-app.listen(3000);
+app.listen(3000, () => {
+    console.log("server started")
+});
